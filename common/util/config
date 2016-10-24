@@ -1,0 +1,6 @@
+[parameters]
+feature_path=/local/docs/xiv-fvt/features
+log_level=DEBUG
+post_process=postprocess
+log_path=./logs
+suite_id=123
