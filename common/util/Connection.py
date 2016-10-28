@@ -64,7 +64,7 @@ class Connection(object):
         def execute(self, command):
                 """Execute the given commands on a remote machine."""
                 channel = self._transport.open_session()
-                channel.exec_command(command)
+                print channel.exec_command(command)
                 output = channel.makefile('rb', -1).readlines()
                 if output:
                         #print output
