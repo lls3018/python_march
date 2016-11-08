@@ -27,22 +27,22 @@ def gen_plugin(plugin):
     base_path = "$HOME/CloudChef-WorkSpace/"
     if plugin == 'aliyun':
         tar_path = base_path + "cloudchef-aliyun-plugin.tar.gz"
-        tar_cmd = "cd {base_path}/codebase/yacmp-orchestrator ; tar -zcvf " \
+        tar_cmd = "cd {base_path}/codebase/smartcmp-orchestrator ; tar -zcvf " \
                   "{base_path}/cloudchef-aliyun-plugin.tar.gz cloudchef-aliyun-plugin/"\
                   .format(base_path=base_path)
     elif plugin == 'vsphere':
         tar_path = base_path + "cloudchef-vsphere-plugin.tar.gz"
-        tar_cmd = "cd {base_path}/codebase/yacmp-orchestrator ; tar -zcvf " \
+        tar_cmd = "cd {base_path}/codebase/smartcmp-orchestrator ; tar -zcvf " \
                   "{base_path}/cloudchef-vsphere-plugin.tar.gz cloudchef-vsphere-plugin/" \
             .format(base_path=base_path)
     elif plugin == 'docker':
         tar_path = base_path + "cloudify-docker-plugin.tar.gz"
-        tar_cmd = "cd {base_path}/codebase/yacmp-orchestrator ; tar -zcvf " \
+        tar_cmd = "cd {base_path}/codebase/smartcmp-orchestrator ; tar -zcvf " \
                   "{base_path}/cloudify-docker-plugin.tar.gz cloudify-docker-plugin/" \
             .format(base_path=base_path)
     elif plugin == 'openstack':
         tar_path = base_path + "cloudify-openstack-plugin.tar.gz"
-        tar_cmd = "cd {base_path}/codebase/yacmp-orchestrator ; tar -zcvf " \
+        tar_cmd = "cd {base_path}/codebase/smartcmp-orchestrator ; tar -zcvf " \
                   "{base_path}/cloudify-openstack-plugin.tar.gz cloudify-openstack-plugin/" \
             .format(base_path=base_path)
 
