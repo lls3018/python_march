@@ -147,6 +147,19 @@ def main():
         server = client._get_obj_by_name([vim.VirtualMachine], server_name)
         print server.name, server._moId
 
+    tags_info = {}
+    tags_info['guestinfo.poweroff'] = "off"
+
+    tag_spec = vim.vm.ConfigSpec()
+    opt = vim.option.OptionValue()
+    tag_spec.extraConfig = []
+    for k, v in tags_info.iteritems():
+        opt.key, opt.value = k, v
+        tag_spec.extraConfig.append(opt)
+        opt = vim.option.OptionValue()
+
+    task = server.ReconfigVM_Task(tag_spec)
+
     # Step1 : Create a EventFilterSpecByEntity
     efespec = vim.event.EventFilterSpec.ByEntity()
     efespec.entity = server
@@ -157,9 +170,9 @@ def main():
     # Step3: QueryEvents
     events = client.content.eventManager.QueryEvents(efspec)
     #print events
-    for event in events:
-        if type(event) is vim.event.CustomizationSucceeded:
-            print event
+    #for event in events:
+    #    if type(event) is vim.event.CustomizationSucceeded:
+    #        print event
 
 
     # print '-------'
