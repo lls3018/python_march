@@ -1,7 +1,15 @@
 #!/usr/bin/env python
 # encoding: utf-8
+import sys
 import argparse
 import commands
+
+
+def usage():
+    usage_str = """
+    python %s --help : to get help info
+    """ % (sys.argv[0])
+    return usage_str
 
 
 def get_args():
@@ -10,29 +18,16 @@ def get_args():
 
     parser.add_argument('-u', '--upload',
                         action='store',
-                        help='upload the plugin | (aliyun, docker, vsphere, openstack)')
+                        help='upload the plugin | '
+                             '(aliyun, docker, vsphere, openstack, or other plugin name)')
 
     args = parser.parse_args()
     return args
 
 
-def upload_plugin(plugin):
-    plugin_tar_name = None
-    plugin_wgn_name = None
-    if plugin == 'aliyun':
-        plugin_tar_name = 'cloudchef-aliyun-plugin'
-        plugin_wgn_name = 'cloudchef_aliyun_plugin-1.4.1-py27-none-linux_x86_64-centos-Core.wgn'
-    elif plugin == 'docker':
-        plugin_tar_name = 'cloudify-docker-plugin'
-        plugin_wgn_name = 'cloudify_docker_plugin-1.3.2-py27-none-linux_x86_64-centos-Core.wgn'
-    elif plugin == 'vsphere':
-        plugin_tar_name = 'cloudchef-vsphere-plugin'
-        plugin_wgn_name = 'cloudchef_vsphere_plugin-2.0-py27-none-linux_x86_64-centos-Core.wgn'
-    elif plugin == 'openstack':
-        plugin_tar_name = 'cloudify-openstack-plugin'
-        plugin_wgn_name = 'cloudify_openstack_plugin-1.4-py27-none-linux_x86_64-centos-Core.wgn'
+def upload_plugin(plugin_name):
 
-    ret, out = commands.getstatusoutput("cfy plugins list | grep %s" % plugin_tar_name)
+    ret, out = commands.getstatusoutput("cfy plugins list | grep %s" % plugin_name)
     if ret == 0:
         plugin_id = out.split('|')[1].strip()
         print "the plugins id is:" + plugin_id
@@ -40,7 +35,7 @@ def upload_plugin(plugin):
         ret, out = commands.getstatusoutput(delete_cmd)
         print out
 
-    upload_cmd = "cfy plugins upload -p %s" % plugin_wgn_name
+    upload_cmd = "cfy plugins upload -p *%s*.wgn" % plugin_name
     ret, out = commands.getstatusoutput(upload_cmd)
     print out
 
@@ -50,14 +45,12 @@ def main():
     Let this thing fly
     """
     args = get_args()
-    all_plugin = ('aliyun', 'docker', 'vsphere', 'openstack')
-
-    if args.upload and (args.upload in all_plugin):
+    if args.upload:
         print "start upload the %s plugin" % args.upload
         upload_plugin(args.upload)
+    else:
+        print usage()
 
 # start this thing
 if __name__ == "__main__":
     main()
-
-
