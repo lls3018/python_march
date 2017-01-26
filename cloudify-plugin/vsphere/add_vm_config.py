@@ -55,30 +55,19 @@ def main():
     client = VsphereClient()
     client.connect()
 
-    server_names = ['windows-2']
+    server_names = ['z3']
     for server_name in server_names:
         server = client._get_obj_by_name([vim.VirtualMachine], server_name)
         print server.name, server._moId
-
-    client = VsphereClient()
-    client.connect()
-
-    server_names = ['ubuntu-wenqi']
-    for server_name in server_names:
-        server = client._get_obj_by_name([vim.VirtualMachine], server_name)
 
     spec = vim.vm.ConfigSpec()
     opt = vim.option.OptionValue()
     spec.extraConfig = []
 
     options_values = {
-        "custom_key5": "Ive tested very large xml and json, and base64 values here"
-                       " and they work",
-        "custom_key6": "Ive tested very large xml and json, and base64 values here"
-                       " and they work",
-        "custom_key7": "Ive tested very large xml and json, and base64 values here"
-                       " and they work",
-        "custom_key8": "update"
+        "name": "zengwenqi1",
+        "guestinfo.deployment_id1": "deployment_id1",
+        'disk.enableUUID': "TRUE"
     }
 
     for k, v in options_values.iteritems():
