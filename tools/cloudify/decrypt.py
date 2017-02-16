@@ -41,9 +41,9 @@ def gen_plugin(plugin):
                   "{base_path}/cloudify-docker-plugin.tar.gz cloudify-docker-plugin/" \
             .format(base_path=base_path)
     elif plugin == 'openstack':
-        tar_path = base_path + "cloudify-openstack-plugin.tar.gz"
+        tar_path = base_path + "cloudchef-openstack-plugin.tar.gz"
         tar_cmd = "cd {base_path}/codebase/smartcmp-orchestrator ; tar -zcvf " \
-                  "{base_path}/cloudify-openstack-plugin.tar.gz cloudify-openstack-plugin/" \
+                  "{base_path}/cloudchef-openstack-plugin.tar.gz cloudchef-openstack-plugin/" \
             .format(base_path=base_path)
 
     if os.path.exists(tar_path):
@@ -61,7 +61,7 @@ def gen_plugin(plugin):
     print "2. scp the tar.gz to the dir"
     print commands.getstatusoutput(scp_cmd)
     # gen the wgn plugin
-    gen_cmd = "cd /var/cc/plugins/{0} ; wagon create -s ./*.tar.gz".format(gen_dir)
+    gen_cmd = "cd /var/cc/plugins/{0} ; wagon create ./*.tar.gz".format(gen_dir)
     print "3. create the wagon"
     print ssh.execute(gen_cmd)
 

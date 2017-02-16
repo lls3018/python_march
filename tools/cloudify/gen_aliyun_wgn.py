@@ -1,42 +1,18 @@
-from common.util import Connection
-import os
-import commands
-import datetime
-import shutil
+from Crypto.Cipher import AES
 
-if __name__=="__main__":
+password = 'f48286d47146e7f21914c2a9e3c28b5406730970e1d6b761a9824bdebb9ea6d25912c896bc4d143ce7b4aaada1efd9dc'
 
-    now = datetime.datetime.now()
-    now = now.strftime('%Y-%m-%d-%H:%M:%S')
+password_org = 'Passw0rd'
 
-    tar_path = "$HOME/CloudChef-WorkSpace/cloudchef-aliyun-plugin.tar.gz"
-    if os.path.exists(tar_path):
-        os.remove(tar_path)
 
-    ssh = Connection.Connection(host="192.168.84.19", username="root", password="Passw0rd")
+def decrypt_password(password):
+    BS = AES.block_size
+    pad = lambda s: s + (BS - len(s) % BS) * chr(BS - len(s) % BS)
+    unpad = lambda s: s[0:-ord(s[-1])]
+    key = "cloudchefcloudch"  # the length can be (16, 24, 32)
+    cipher = AES.new(key)
+    decrypted = unpad(cipher.decrypt(password.decode('hex')))
 
-    tar_cmd = "cd $HOME/CloudChef-WorkSpace/codebase/yacmp-orchestrator ; tar -zcvf " \
-              "$HOME/CloudChef-WorkSpace/cloudchef-aliyun-plugin.tar.gz cloudchef-aliyun-plugin/"
-    commands.getstatusoutput(tar_cmd)
+    return decrypted
 
-    scp_cmd = "scp %s root@192.168.84.19:/var/cc/plugins" % (tar_path)
-    commands.getstatusoutput(scp_cmd)
-
-    if os.path.exists(tar_path):
-        os.remove(tar_path)
-
-    # gen the wgn plugin
-    #gen_cmd = "cd /var/cc/plugins ; wagon create -s ./cloudchef-vsphere-plugin.tar.gz  -r  --validate"
-    gen_cmd = "cd /var/cc/plugins ; wagon create -s ./cloudchef-aliyun-plugin.tar.gz"
-    ret = ssh.execute(gen_cmd)
-
-    current_dir = str(now) + '-aliyun'
-    backup_cloudchef = "cd /var/cc/plugins ; mkdir %s ; mv cloudchef* %s" % (current_dir, current_dir)
-    ret = ssh.execute(backup_cloudchef)
-
-    scp_file = "cd /var/cc/plugins ; cp scp_aliyun_to_server.sh %s" % (current_dir)
-    ret = ssh.execute(scp_file)
-    print ret
-
-    gen_version = "cd /var/cc/plugins ; echo %s >> aliyun-version.txt" % (now)
-    ret = ssh.execute(gen_version)
+print decrypt_password(decrypt_password(password))

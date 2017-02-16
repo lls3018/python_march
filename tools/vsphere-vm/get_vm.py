@@ -17,7 +17,6 @@
 """
 Python program for listing the vms on an ESX / vCenter host
 """
-
 from pyVmomi import vim
 import time
 
@@ -142,24 +141,27 @@ def main():
     client = VsphereClient()
     client.connect()
 
-    server_names = ['good']
+    server_names = ['Server8']
     for server_name in server_names:
         server = client._get_obj_by_name([vim.VirtualMachine], server_name)
         print server.name, server._moId
+        print dir(server)
 
-    # Step1 : Create a EventFilterSpecByEntity
-    efespec = vim.event.EventFilterSpec.ByEntity()
-    efespec.entity = server
-    efespec.recursion = vim.event.EventFilterSpec.RecursionOption.all
-    # Step2 :Event Spec Filter
-    efspec = vim.event.EventFilterSpec()
-    efspec.entity = efespec
-    # Step3: QueryEvents
-    events = client.content.eventManager.QueryEvents(efspec)
-    #print events
-    for event in events:
-        if type(event) is vim.event.CustomizationSucceeded:
-            print event
+
+
+    # # Step1 : Create a EventFilterSpecByEntity
+    # efespec = vim.event.EventFilterSpec.ByEntity()
+    # efespec.entity = server
+    # efespec.recursion = vim.event.EventFilterSpec.RecursionOption.all
+    # # Step2 :Event Spec Filter
+    # efspec = vim.event.EventFilterSpec()
+    # efspec.entity = efespec
+    # # Step3: QueryEvents
+    # events = client.content.eventManager.QueryEvents(efspec)
+    # #print events
+    # for event in events:
+    #     if type(event) is vim.event.CustomizationSucceeded:
+    #         print event
 
 
     # print '-------'
