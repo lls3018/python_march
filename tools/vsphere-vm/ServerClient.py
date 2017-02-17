@@ -7,8 +7,15 @@ from pyVmomi import vim
 from pyVim.connect import SmartConnect, Disconnect
 import atexit
 import ssl
+import time
 
 class VsphereClient(object):
+
+    # def __init__(self):
+    #     self.host = '192.168.1.113'
+    #     self.user = 'administrator@vsphere.local'
+    #     self.pwd = 'P@ssw0rd'
+    #     self.port = 443
 
     def __init__(self):
         self.host = '192.168.84.9'
@@ -17,22 +24,30 @@ class VsphereClient(object):
         self.port = 443
 
     def connect(self):
-        try:
-            context = ssl.SSLContext(ssl.PROTOCOL_SSLv23)
-            context.verify_mode = ssl.CERT_NONE
-            ssl._create_default_https_context = ssl._create_unverified_context
-            self.si = SmartConnect(host=self.host,
-                                   user=self.user,
-                                   pwd=self.pwd,
-                                   port=self.port)
-            atexit.register(Disconnect, self.si)
-            self._get_content()
-            return self
-        except vim.fault.InvalidLogin:
+        context = ssl.SSLContext(ssl.PROTOCOL_SSLv23)
+        context.verify_mode = ssl.CERT_NONE
+        ssl._create_default_https_context = ssl._create_unverified_context
+
+        for i in range(6):
+            try:
+                self.si = SmartConnect(host=self.host,
+                                       user=self.user,
+                                       pwd=self.pwd,
+                                       port=int(self.port))
+                atexit.register(Disconnect, self.si)
+                self._get_content()
+            except vim.fault.InvalidLogin:
+                print("can not logint to vsphere: retry {}".format(i+1))
+                time.sleep(10)
+            else:
+                break
+        else:
             raise Exception(
                 "Could not login to vSphere on {host} with provided "
-                "credentials".format(host=self.host)
+                "credentials in 60s".format(host=self.host)
             )
+        return self
+
 
     def _get_content(self):
         if "content" not in locals():

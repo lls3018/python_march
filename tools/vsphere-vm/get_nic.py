@@ -63,7 +63,7 @@ def main():
 
    # network = client._get_obj_by_id([vim.Network], 'dvportgroup-1076')
    # network = client._get_obj_by_id([vim.dvs.DistributedVirtualPortgroup], 'dvportgroup-1076')
-   network = client._get_obj_by_name([vim.Network], 'VM Network')
+   network = client._get_obj_by_name([vim.Network], '192.168.85.0/24')
    print network
    #
    print type(network)

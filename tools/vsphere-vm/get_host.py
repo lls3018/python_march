@@ -39,14 +39,23 @@ def main():
     client.connect()
 
     host_list = client.get_obj_list([vim.HostSystem])
-    for host in host_list:
-        if host.name == '192.168.84.85':
-            print host.name
-            print host.runtime.inMaintenanceMode
-            #print host.runtime
-            #print host.runtime
-            print get_host_state(host)
 
+    candidate_host = [host for host in host_list if get_host_state(host)]
+    print candidate_host
+
+    print "-----"
+    for host in host_list:
+        print host, host.name, host._moId
+
+        #print host.runtime
+        #print get_host_state(host)
+
+    host_id = host._moId
+    print host_id
+    host_obj = client._get_obj_by_id([vim.HostSystem], host_id)
+    print host_obj
+    print host.runtime.connectionState
+    print get_host_state(host)
 
     # datastore2 = client._get_obj_by_name([vim.Datastore], 'datastore1')
     #

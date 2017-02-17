@@ -141,9 +141,9 @@ def main():
     client = VsphereClient()
     client.connect()
 
-    server_names = ['Server8']
+    server_names = ['vm-188']
     for server_name in server_names:
-        server = client._get_obj_by_name([vim.VirtualMachine], server_name)
+        server = client._get_obj_by_id([vim.VirtualMachine], server_name)
         print server.name, server._moId
         print dir(server)
 
