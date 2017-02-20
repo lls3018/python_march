@@ -31,21 +31,21 @@ def main():
    datacenter = client._get_obj_by_id([vim.Datacenter],
                                       "datacenter-2")
 
-   #print datacenter
    folders = ['group-v454']
    for folder_id in folders:
        folder = client._get_obj_by_id([vim.Folder], folder_id)
-       print folder, folder.name
-       print folder._moId
+       print folder, folder.name, folder._moId
+   #
+   # folders = ['WENQI1']
+   # for folder_name in folders:
+   #     folder = client._get_obj_by_name([vim.Folder], folder_name)
+   #     print folder, folder.name
 
-   folders = ['WENQI']
-   for folder_name in folders:
-       folder = client._get_obj_by_name([vim.Folder], folder_name)
-       print folder, folder.name
+   print '----------'
+   folder = None
+   destfolder = folder if folder else datacenter.vmFolder
+   print destfolder, destfolder.name, destfolder._moId
 
-   #folder = None
-   #destfolder = folder if folder else datacenter.vmFolder
-   #print destfolder
 
    #print dir(datacenter)
    #print "----vmFolder1---"

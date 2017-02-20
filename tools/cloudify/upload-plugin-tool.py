@@ -52,6 +52,13 @@ def clean_all_py(plugin_path):
             if path_filename.endswith('.py') and file != "setup.py":
                 os.remove(path_filename)
 
+
+def clean_old_plugin(plugin_name):
+    clean_cmd = "rm -rf /opt/mgmtworker/env/plugins/*{}*".format(plugin_name)
+    ret, out = commands.getstatusoutput(clean_cmd)
+    print out
+
+
 def main():
     """
     Let this thing fly
@@ -62,7 +69,9 @@ def main():
         plugins = str(args.upload).split(',')
         for plugin in plugins:
             print "start upload the %s plugin" % args.upload
+            clean_old_plugin(plugin.strip())
             upload_plugin(plugin.strip())
+
     if not args.dev:
         plugin_path = "/opt/mgmtworker/env/plugins/"
         compileall.compile_dir(plugin_path)
