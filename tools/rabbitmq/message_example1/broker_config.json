@@ -1,0 +1,7 @@
+{
+  "broker_ssl_enabled": false,
+  "broker_cert_path": "",
+  "broker_username": "cloudchef",
+  "broker_password": "c10udch3f",
+  "broker_hostname": "192.168.84.28"
+}

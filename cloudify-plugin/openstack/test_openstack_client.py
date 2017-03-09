@@ -1,6 +1,7 @@
 
 import openstack_plugin_common as common
 
+SERVER_STATUS_VERIFY_RESIZE = 'VERIFY_RESIZE'
 
 class OpenstackClients():
 
@@ -9,8 +10,8 @@ class OpenstackClients():
 
         inputs_cfg = {
             'username': 'admin',
-            'password': 'password',
-            'auth_url': 'http://192.168.84.3:5000/v2.0',
+            'password': 'crowbar',
+            'auth_url': 'http://192.168.126.2:5000/v2.0',
             'region': 'RegionOne',
             'tenant_name': 'admin'
         }
@@ -99,15 +100,18 @@ if __name__ == '__main__':
     #floating_ip = _get_server_floating_ip1(nova_client, 'e5ec49a1-1d02-4da6-bd98-18d8d6e7611a')
     #print floating_ip.ip
 
-    server = nova_client.servers.get('29499648-6aae-440a-a586-7e56fea4db33')
+    server = nova_client.servers.get('61cd0cfc-e50d-44e1-a5c7-0d096135d5d3')
     print server.status
 
-    server_task_state = getattr(server, 'OS-EXT-STS:task_state')
-    print server_task_state
-
-
-    floating_ip = _get_server_floating_ip(neut_client, '29499648-6aae-440a-a586-7e56fea4db33')
-    print floating_ip
+    #if server.status == SERVER_STATUS_VERIFY_RESIZE:
+    #    nova_client.servers.confirm_resize(server)
+    #print server.status
+    # server_task_state = getattr(server, 'OS-EXT-STS:task_state')
+    # print server_task_state
+    #
+    #
+    # floating_ip = _get_server_floating_ip(neut_client, '29499648-6aae-440a-a586-7e56fea4db33')
+    # print floating_ip
     #print floating_ip.get('floating_ip_address', None)
     #search_param = {'name': 'default', 'tenant_id': keys_client.tenant_id}
     #search_param = {'name': 'default'}
