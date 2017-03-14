@@ -5,7 +5,6 @@ import time
 import pika
 import pika.exceptions
 import broker_config
-import uuid
 
 
 class AMQPClient(object):
@@ -22,8 +21,8 @@ class AMQPClient(object):
         self.corr_id = amqp_id
         self.response = None
 
-        self.publish_queue = 'python_jar_ip_pool_queue'
-        self.consume_queue = 'jar_python_ip_pool_queue'
+        self.publish_queue = 'wenqi_ip_pool'
+        self.consume_queue = 'wenqi_ip_pool_result'
 
         credentials = pika.credentials.PlainCredentials(
             username=amqp_user,
@@ -44,9 +43,6 @@ class AMQPClient(object):
                                    queue=self.consume_queue)
 
     def on_response(self, ch, method, props, body):
-        print props
-        print body
-        print '-----'
         if self.corr_id == props.correlation_id:
             self.response = body
 
@@ -60,9 +56,12 @@ class AMQPClient(object):
             self.channel.basic_publish(exchange='',
                                        routing_key=self.publish_queue,
                                        properties=pika.BasicProperties(
+                                           reply_to=self.consume_queue,
                                            correlation_id=self.corr_id
                                        ),
                                        body=body)
+            print "publis body is: {}".format(body)
+            print 'the uuid is {}'.format(self.corr_id)
         except pika.exceptions.ConnectionClosed as e:
             print(
                 'Connection closed unexpectedly for thread {0}, '
@@ -70,12 +69,24 @@ class AMQPClient(object):
                 .format(threading.current_thread(), type(e).__name__, repr(e)))
             return False
 
-        time.sleep(30)
-        print('Waiting for response: {}s'.format(30))
-        if self.response is None:
-            return False
-        else:
-            return json.loads(self.response)
+        while self.response is None:
+            time.sleep(10)
+            self.connection.process_data_events()
+        return json.loads(self.response)
+
+        # time.sleep(60)
+        # print('Wait {}s for response'.format(60))
+        # if self.response:
+        #     print('The response is {}'.format(self.response))
+        #     print('Try to purge queue: {}'.format(self.consume_queue))
+        #     self.channel.queue_purge(queue=self.consume_queue)
+        #     print('Try to delete queue: {}'.format(self.consume_queue))
+        #     self.channel.queue_delete(queue=self.consume_queue)
+        #     self.close()
+        #     return json.loads(self.response)
+        # else:
+        #     self.close()
+        #     return False
 
     def close(self):
         if self._is_closed:
@@ -85,6 +96,7 @@ class AMQPClient(object):
         if self.channel:
             print('Closing amqp channel of thread {0}'.format(thread))
             try:
+
                 self.channel.close()
             except Exception as e:
                 # channel might be already closed, log and continue

@@ -13,7 +13,7 @@ if __name__ == '__main__':
         ssl=False,
         ssl_options={})
 
-    queue = 'Port_sgizq0'
+    queue = 'wenqi_ip_pool_result'
 
     connection = pika.BlockingConnection(connection_parameters)
 

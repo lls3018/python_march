@@ -1,6 +1,3 @@
-
-import ssl
-
 config = {}
 
 broker_ssl_enabled = config.get('broker_ssl_enabled', False)
@@ -17,7 +14,6 @@ broker_port = 5672
 # broker_password = config.get('broker_password', 'guest')
 # broker_hostname = config.get('broker_hostname', 'localhost')
 # broker_port = 5672
-
 
 
 print config

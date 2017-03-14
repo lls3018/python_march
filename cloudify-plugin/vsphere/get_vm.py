@@ -142,23 +142,29 @@ def main():
     client = VsphereClient()
     client.connect()
 
-    server_names = ['good']
+    server_names = ['god']
     for server_name in server_names:
         server = client._get_obj_by_name([vim.VirtualMachine], server_name)
         print server.name, server._moId
 
-    tags_info = {}
-    tags_info['guestinfo.poweroff'] = "off"
+    print dir(server)
+    print server.summary.config.memorySizeMB
+    print server.summary.config.numCpu
 
-    tag_spec = vim.vm.ConfigSpec()
-    opt = vim.option.OptionValue()
-    tag_spec.extraConfig = []
-    for k, v in tags_info.iteritems():
-        opt.key, opt.value = k, v
-        tag_spec.extraConfig.append(opt)
-        opt = vim.option.OptionValue()
 
-    task = server.ReconfigVM_Task(tag_spec)
+
+    # tags_info = {}
+    # tags_info['guestinfo.poweroff'] = "off"
+    #
+    # tag_spec = vim.vm.ConfigSpec()
+    # opt = vim.option.OptionValue()
+    # tag_spec.extraConfig = []
+    # for k, v in tags_info.iteritems():
+    #     opt.key, opt.value = k, v
+    #     tag_spec.extraConfig.append(opt)
+    #     opt = vim.option.OptionValue()
+    #
+    # task = server.ReconfigVM_Task(tag_spec)
 
     # Step1 : Create a EventFilterSpecByEntity
     efespec = vim.event.EventFilterSpec.ByEntity()

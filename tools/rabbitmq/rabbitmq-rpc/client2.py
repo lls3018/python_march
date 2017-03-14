@@ -1,7 +1,7 @@
 import amqp_client
 
-fibonacci_rpc = amqp_client.create_client(amqp_id='a2')
 dic1 = {'instance_id': '2', 'node_id': 'Server', 'deployment_id': 'cdea123445'}
+fibonacci_rpc = amqp_client.create_client(amqp_id=dic1.get('instance_id'))
 print dic1
 print 'waiting...'
 response = fibonacci_rpc.call(dic1)
