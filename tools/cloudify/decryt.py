@@ -1,7 +1,7 @@
 from Crypto.Cipher import AES
 
 password_org = 'password'
-en_password = '4a4664aa6e0ba8cb57d33bcd9b6a52842b3eec54579e986364885801ca67f403'
+en_password = '9244d23f660a93b2607ffd51cba904f4'
 
 
 def decrypt_password(password):
@@ -17,7 +17,7 @@ def decrypt_password(password):
 print (decrypt_password(en_password))
 
 
-
+key = 'Cc12345678'
 
 def encrypt_password(password):
     BS = AES.block_size
@@ -29,6 +29,6 @@ def encrypt_password(password):
     encrypted = cipher.encrypt(pad(password)).encode('hex')
     return encrypted
 
-print encrypt_password(password_org)
+print encrypt_password(key)
 
 

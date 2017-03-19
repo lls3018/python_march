@@ -23,31 +23,22 @@ module = 'cdb'
 '''
 action 对应接口的接口名，请参考产品文档上对应接口的接口名
 '''
-action = 'RunInstancesHour'
 
-parameters = {
-        'instanceName': 'zeng-test',
-        'imageId': 'img-3wnd9xpl',
-        'cpu': 1,
-        'mem': 1,
-        'zoneId': 100001
-    }
+#parameters = {'mem': 2, 'period': 1, 'imageId': 'img-31tjrtph', 'PayMode': 'Month', 'bandwidth': 1, 'wanIp': 1, 'instanceName': 'qcloud-4i70qc', 'cpu': 1}
 
+parameters = {u'password': 'Passw0rd', 'mem': 1, 'imageId': u'img-31tjrtph', 'zoneId': 200001, u'PayMode': u'Hour', u'bandwidth': 1, u'wanIp': 1, 'storageSize': 0, 'instanceName': u'qcloud-g3ply2', 'cpu': 1, u'bandwidthType': u'PayByHour'}
 
-
-import json
 @with_qcloud_client('cvm')
 def CreateInstances(qcloud_client_cvm, **_):
     #print qcloud_client_cvm.generateUrl(action, params)
     # 调用接口，发起请求
-
-    qcloud_client_cvm.setRequestMethod('post')
+    import json
+    action = 'RunInstancesHour'
     body = qcloud_client_cvm.call(action, parameters)
     result = json.loads(body)
-    code = result.get('code', 0)
-
     print result
-    print code
+
+    print result.get('message').encode("UTF-8")
 
 
 import json
@@ -63,6 +54,6 @@ def DescribeInstances(qcloud_client_cvm, **_):
     instances = result.get('instanceSet')
 
 
-    print instances[0]
+    print instances
 
 DescribeInstances()

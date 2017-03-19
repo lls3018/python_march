@@ -22,10 +22,8 @@ wenzhi   对应   wenzhi.api.qcloud.com
 
 
 import json
-
-
-@with_qcloud_client('dfw')
-def Describesg(qcloud_client_dfw, **_):
+@with_qcloud_client('image')
+def Describesg(qcloud_client_image, **_):
     action = 'DescribeSecurityGroupPolicy'
     parameters = {
         'sgId': 'sg-cvnhntrc'
@@ -37,27 +35,9 @@ def Describesg(qcloud_client_dfw, **_):
     print result
 
 
-@with_qcloud_client('dfw')
-def Describesgs(qcloud_client_dfw, **_):
-    action = 'DescribeSecurityGroups'
-    param = {}
-    body = qcloud_client_dfw.call(action, param)
-    result = json.loads(body)
+Describesg()
+print '------------'
 
-    print result
-
-
-@with_qcloud_client('dfw')
-def Describesgs2(qcloud_client_dfw, **_):
-    action = 'DescribeSecurityGroups'
-    param = {}
-    body = qcloud_client_dfw.call(action, param)
-    result = json.loads(body)
-
-    print result
-
-
-Describesgs()
 
 @with_qcloud_client('dfw')
 def Modifysg(qcloud_client_dfw, **_):
@@ -69,27 +49,14 @@ def Modifysg(qcloud_client_dfw, **_):
         'egress.0.action': 'ACCEPT',
         'egress.0.desc': 'abcd',
         'egress.0.portRange': 99,
+        'abc': '123'
+
     }
 
-    # para = {'ingress.0.portRange': '100', 'ingress.0.action': 'ACCEPT', 'ingress.0.cidrIp': '100.0.0.0/16',
-    #  'egress.0.ipProtocol': 'tcp', 'ingress.0.desc': 'ingress', 'egress.0.desc': 'egress', 'egress.0.portRange': '',
-    #  'sgId': 'sg-cvnhntrc', 'ingress.0.ipProtocol': 'tcp', 'egress.0.action': 'ACCEPT',
-    #  'egress.0.cidrIp': '200.0.0.0/16', 'other': 'other'}
-
-
-    para = {u"ingress.0.portRange": 55,
-            u"egress.0.desc": u'xijia',
-            u"ingress.0.desc": u'yangrui',
-            u"ingress.0.action": u'ACCEPT',
-            u"ingress.0.ipProtocol": u'tcp',
-            u"egress.0.action": u'ACCEPT',
-            u"egress.0.cidrIp": u'11.0.0.0/16',
-            u"egress.0.portRange": '77',
-            u"ingress.0.cidrIp": u'10.0.0.0/16',
-            'sgId': u'sg-fxvbzc8a',
-            u"egress.0.ipProtocol": u'tcp'}
-
-    para = {u"ingress.0.portRange'": 55, u"egress.0.desc'": u'xijia', u"ingress.0.desc'": u'yangrui', u"ingress.0.action'": u'ACCEPT', u"ingress.0.ipProtocol'": u'tcp', u"egress.0.action'": u'ACCEPT', u"egress.0.cidrIp'": u'11.0.0.0/16', u"egress.0.portRange'": 77, u"ingress.0.cidrIp'": u'10.0.0.0/16', 'sgId': u'sg-fxvbzc8a', u"egress.0.ipProtocol'": u'tcp'}
+    para = {'ingress.0.portRange': '100', 'ingress.0.action': 'ACCEPT', 'ingress.0.cidrIp': '100.0.0.0/16',
+     'egress.0.ipProtocol': 'tcp', 'ingress.0.desc': 'ingress', 'egress.0.desc': 'egress', 'egress.0.portRange': '',
+     'sgId': 'sg-cvnhntrc', 'ingress.0.ipProtocol': 'tcp', 'egress.0.action': 'ACCEPT',
+     'egress.0.cidrIp': '200.0.0.0/16', 'other': 'other'}
 
     print qcloud_client_dfw.generateUrl(action, para)
 
@@ -98,23 +65,9 @@ def Modifysg(qcloud_client_dfw, **_):
 
     print result
 
+Modifysg()
 
-@with_qcloud_client('dfw')
-def modify_security_group(qcloud_client_dfw):
 
-    action = 'DescribeSecurityGroups'
-    parameters = {}
-    body = qcloud_client_dfw.call(action, parameters)
-    result = json.loads(body)
-
-    print result
-
-    param = {'instanceSet.0.sgIds.0': u'sg-cvnhntrc', 'instanceSet.0.instanceId': u'ins-2b8c8gq7'}
-    action = 'ModifySecurityGroupsOfInstance'
-    print qcloud_client_dfw.generateUrl(action, param)
-    body = qcloud_client_dfw.call(action, param)
-    result = json.loads(body)
-    print result
 
 
 def _create_group_rules():
@@ -170,3 +123,6 @@ def _create_group_rules():
                 rules_para['egress.'+str(i)+'.'+k] = v
 
     print rules_para
+
+
+_create_group_rules()

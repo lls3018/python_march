@@ -36,7 +36,7 @@ def gen_plugin(plugin):
                   "{base_path}/cloudchef-vsphere-plugin.tar.gz cloudchef-vsphere-plugin/" \
             .format(base_path=base_path)
     elif plugin == 'docker':
-        tar_path = base_path + "cloudchef-docker-plugin.tar.gz"
+        tar_path = base_path + "cloudchevf-docker-plugin.tar.gz"
         tar_cmd = "cd {base_path}/codebase/smartcmp-orchestrator ; tar -zcvf " \
                   "{base_path}/cloudchef-docker-plugin.tar.gz cloudchef-docker-plugin/" \
             .format(base_path=base_path)
