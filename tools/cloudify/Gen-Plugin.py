@@ -42,13 +42,17 @@ def gen_plugin(plugin):
             .format(base_path=base_path)
     elif plugin == 'openstack':
         tar_path = base_path + "cloudchef-openstack-plugin.tar.gz"
-        tar_cmd = "cd {base_path}/codebase/smartcmp-orchestrator ; tar -zcvf " \
-                  "{base_path}/cloudchef-openstack-plugin.tar.gz cloudchef-openstack-plugin/" \
+        tar_cmd = "cd {base_path}/codebase/smartcmp-orchestrator ; tar -zcvf "  "{base_path}/cloudchef-openstack-plugin.tar.gz cloudchef-openstack-plugin/" \
             .format(base_path=base_path)
     elif plugin == 'aws':
         tar_path = base_path + "cloudchef-aws-plugin.tar.gz"
         tar_cmd = "cd {base_path}/codebase/smartcmp-orchestrator ; tar -zcvf " \
                   "{base_path}/cloudchef-aws-plugin.tar.gz cloudchef-aws-plugin/" \
+            .format(base_path=base_path)
+    elif plugin == 'qingcloud':
+        tar_path = base_path + "cloudchef-qingcloud-plugin.tar.gz"
+        tar_cmd = "cd {base_path}/codebase/smartcmp-orchestrator ; tar -zcvf " \
+                  "{base_path}/cloudchef-qingcloud-plugin.tar.gz cloudchef-qingcloud-plugin/" \
             .format(base_path=base_path)
 
     if os.path.exists(tar_path):
@@ -83,7 +87,7 @@ def main():
     Let this thing fly
     """
     # args = get_args()
-    all_plugin = ('aliyun', 'docker', 'vsphere', 'openstack', 'aws')
+    all_plugin = ('aliyun', 'docker', 'vsphere', 'openstack', 'aws', 'qingcloud')
     #
     # if args.plugin and (args.plugin in all_plugin):
     #     print "start upload the %s plugin" % args.plugin
