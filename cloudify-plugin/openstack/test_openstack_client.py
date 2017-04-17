@@ -17,6 +17,7 @@ class OpenstackClients():
         }
 
 
+
         nova_client, neut_client, cind_client = \
             self._create_clients(inputs_cfg)
         return nova_client, neut_client, cind_client
@@ -99,9 +100,49 @@ if __name__ == '__main__':
 
     #floating_ip = _get_server_floating_ip1(nova_client, 'e5ec49a1-1d02-4da6-bd98-18d8d6e7611a')
     #print floating_ip.ip
+    #
+    server_id = 'bca10730-6d1f-4407-ad29-12d7ba8df704'
+    server = nova_client.servers.get(server_id)
 
-    server = nova_client.servers.get('61cd0cfc-e50d-44e1-a5c7-0d096135d5d3')
-    print server.status
+    address_list = []
+    for network, addresses in server.addresses.items():
+        for address in addresses:
+            if address.get('OS-EXT-IPS:type') == 'fixed':
+                address_list.append(address['addr'])
+
+    print address_list
+
+
+    # for address in addresses:
+    #     if address.get('OS-EXT-IPS:type') == 'fixed':
+    #         print address['addr']
+
+
+    #print _get_server_floating_ip(neut_client, server_id)
+
+
+    # net_id = '22da7c10-2890-42c3-8a54-4b97a87ec1ee'
+    # network = neut_client.show_network(net_id)
+    #
+    # print network
+    #
+    # network = neut_client.show_network(net_id).get('network')
+    # sub_nets = network.get('subnets')
+    # sub_net = neut_client.show_subnet(sub_nets[0]).get('subnet')
+    # sub_net_id = sub_net.get('id')
+    # print sub_net_id
+    # for port in neut_client.list_ports(net_id)['ports']:
+    #     for fixed_ip in port.get('fixed_ips', []):
+    #        if fixed_ip.get('subnet_id') == sub_net_id:
+    #            print fixed_ip
+
+
+    # router_id = '2ae9ba58-43ed-4120-b4d4-0bcc399dc532'
+    # for port in neut_client.list_ports(device_id=router_id)['ports']:
+    #     for fixed_ip in port.get('fixed_ips', []):
+    #         print fixed_ip
+            # if fixed_ip.get('subnet_id') == subnet_id:
+            #     return
 
     #if server.status == SERVER_STATUS_VERIFY_RESIZE:
     #    nova_client.servers.confirm_resize(server)
