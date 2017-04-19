@@ -72,14 +72,16 @@ if __name__ == '__main__':
     # lb_pools = neut_client.list_pools().get('pools')
     # lb_vips = neut_client.list_vips().get('vips')
     #
-    lb_pool_id = 'db90460d-884b-47b1-afa8-003d539c19a2'
+    lb_pool_id = '867d7829-d505-4654-aa54-17b43c01c00e'
     lb_pool_obj = neut_client.show_pool(lb_pool_id)['pool']
     print lb_pool_obj
+
+    print neut_client.show_vip(lb_pool_obj['vip_id'])
     # if lb_pool_obj['vip_id']:
     #     print neut_client.show_vip(lb_pool_obj['vip_id'])
     #
-    for member in lb_pool_obj['members']:
-        print neut_client.show_member(member)['member']
+    # for member in lb_pool_obj['members']:
+    #     print neut_client.show_member(member)['member']
     #
     # neut_client.delete_member('3d97d16e-7979-4219-8a2c-e5922dae7461')
 

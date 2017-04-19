@@ -104,16 +104,13 @@ if __name__ == '__main__':
     # print pool_obj
     # _wait_lb_ready(neut_client, loadbalancer_obj['id'])
 
-    lb_id = '950fc3c0-c871-4b5e-b07c-4efc39d5def3'
+    lb_id = '67901fa5-d9c3-4d86-9837-cfeeef884c60'
     lb_obj = neut_client.show_loadbalancer(lb_id)['loadbalancer']
     print lb_obj
 
-    print lb_obj['pools'][0]['id']
     listener_id = lb_obj['listeners'][0]['id']
-
-
     listener_obj = neut_client.show_listener(listener_id)['listener']
-    print listener_obj['protocol_port']
+    print listener_obj
 
     # member= {
     #     "address": "10.30.106.7",
