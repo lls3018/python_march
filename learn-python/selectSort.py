@@ -3,7 +3,7 @@
 __author__ = 'Wayne'
 __date__ = '2017/6/29'
 
-
+# 平均时间复杂度：O(n2)
 def selectionSort(alist):
     for fillslot in range(len(alist)-1,0,-1):
         pos_max = 0
