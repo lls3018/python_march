@@ -38,10 +38,21 @@ def fib3(n):
     x, y = 0, 1
     while n:
         x, y = y, x+y
-        n = n-1
+        n -= 1
     return y
+
+
+def fib4(n):
+    # write code here
+    num=[]
+    num.insert(0, 1)
+    num.insert(1, 1)
+    for i in range(2, n+1):
+        num.insert(i, num[i-1] + num[i-2])
+    return num[n]
 
 
 print fib(10)
 print fib2(10, cache = {})
 print fib3(10)
+print fib4(10)

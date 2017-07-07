@@ -27,25 +27,20 @@ MAX - MIN，最大的值为6 - 2 = 4， 即为结果
 '''
 
 
+def getMaxDiff(nums):
+    diff_nums = []
+    for i in range(1,len(nums)):
+        diff_nums.append(nums[i]-nums[i-1])
 
-def getMaxDiff(num_list):
-    diff = 0
-    i,j = 0,1
-    for k in range(len(num_list)-1):
-        if num_list[i] > num_list[j]:
-            i=j
-            if j == len(num_list):
-                break
-            j = j + 1
-        tmp = num_list[j] - num_list[i]
-        if tmp > diff:
-            diff = tmp
-        j = j+ 1
-        if j == len(num_list):
-            break
-    return diff
+    max_diff = diff_nums[0]
+    temp_sum = 0
+    for i in diff_nums:
+        temp_sum += i
+        max_diff = max(max_diff, temp_sum)
+        temp_sum = max(temp_sum, 0)
+    return max_diff
 
-list1 = [7,3,4,2,10,8,9,18,14,20]
+list1 = [12,7,3,4,2,10,8,9,18,14,20]
 
 list2 = [-2,2,-3,4,-1,2,1,-5,3]
 
