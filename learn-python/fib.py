@@ -31,7 +31,7 @@ def fib2(n, cache):
         return 1
     else:
         cache[n] = fib2(n-1, cache) + fib2(n-2, cache)
-    return cache[n]
+        return cache[n]
 
 
 def fib3(n):
