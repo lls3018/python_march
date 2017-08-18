@@ -13,8 +13,13 @@ class Singleton(object):
         return cls._instance
 
 
-class MyClass(Singleton):
+class MyClass1(Singleton):
     a = 1
+
+a = MyClass1()
+b = MyClass1()
+
+print a is b
 
 
 # 2 共享属性， 通过共享属性来实现，所谓共享属性，最简单直观的方法就是通过__dict__属性指向同一个字典dict
